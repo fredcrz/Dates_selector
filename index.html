@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elige nuestra cita</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 300px;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.5s, opacity 0.5s;
+        }
+        .card img {
+            width: 100%;
+            height: auto;
+        }
+        .card h2 {
+            margin: 0;
+            padding: 10px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+        }
+        .buttons button {
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .like {
+            background-color: #4caf50;
+            color: white;
+        }
+        .dislike {
+            background-color: #f44336;
+            color: white;
+        }
+        .card.hidden {
+            opacity: 0;
+        }
+        .card.like {
+            transform: translateX(100%);
+            box-shadow: 0 0 20px 5px rgba(76, 175, 80, 0.6);
+        }
+        .card.dislike {
+            transform: translateX(-100%);
+            box-shadow: 0 0 20px 5px rgba(244, 67, 54, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="card" id="card">
+            <img src="https://via.placeholder.com/300x200" alt="Lugar" id="placeImage">
+            <h2 id="placeName">Nombre del lugar</h2>
+            <div class="buttons">
+                <button class="dislike" onclick="nextPlace(false)">No me gusta</button>
+                <button class="like" onclick="nextPlace(true)">Me gusta</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const places = [
+            { name: 'Zoológico pantanal', image: 'https://www.zoologicoelpantanal.com/img/galerias/nacimientos/Capibara.jpg' },
+            { name: 'Museo miniatura', image: 'https://www.clave.com.ec/wp-content/uploads/2017/11/5.jpg' },
+            { name: 'Museo del chocolate', image: 'https://www.clave.com.ec/wp-content/uploads/2017/11/MG_0513.jpg' },
+            { name: 'Malecon 2000', image: 'https://www.hoteldelparquehistorico.com/wp-content/uploads/2021/11/guayaquil-boardwalk-wheel.jpg' },
+            { name: 'Karaoke', image: 'https://i.pinimg.com/736x/97/20/53/972053113bceb2e872ad9e993daf4192.jpg' },
+            { name: 'Mr Joy', image: 'https://www.mrjoy.com.ec/wp-content/uploads/2022/04/ceibos-juegos-mr-joy-9.jpg' },
+            { name: 'Parque del lago', image: 'https://img.goraymi.com/2017/04/03/0b9edcb0363619d43740e159833618a4_xl.jpg' },
+            { name: 'Cine: Babygirl', image: 'https://m.media-amazon.com/images/M/MV5BMmUwODYwODAtYWZkZS00YmUwLWFmMWEtOGNjMjE2NDk3OWIwXkEyXkFqcGc@._V1_.jpg' },
+            { name: 'Bolos', image: 'https://www.eluniverso.com/resizer/v2/BUBYAVGQ65CDHNNK6BFITKDOWY.jpg?auth=1e679fccfb5ee20ade19de9b31163c2321456fb0962c48ff2d81dc558f697def&width=893&height=670&quality=75&smart=true' },
+        ];
+
+        let currentIndex = 0;
+        const placeName = document.getElementById('placeName');
+        const placeImage = document.getElementById('placeImage');
+        const card = document.getElementById('card');
+
+        function preloadImages() {
+            places.forEach(place => {
+                const img = new Image();
+                img.src = place.image;
+            });
+        }
+
+        function loadPlace(index) {
+            placeName.textContent = places[index].name;
+            placeImage.src = places[index].image;
+            card.className = 'card';
+        }
+
+        function nextPlace(liked) {
+            card.classList.add(liked ? 'like' : 'dislike');
+            setTimeout(() => {
+                currentIndex++;
+                if (currentIndex < places.length) {
+                    loadPlace(currentIndex);
+                } else {
+                    alert('¡No hay más lugares para elegir!');
+                    card.style.display = 'none';
+                }
+            }, 500);
+        }
+
+        // Preload images and load the first place on start
+        preloadImages();
+        loadPlace(currentIndex);
+    </script>
+</body>
+</html>
